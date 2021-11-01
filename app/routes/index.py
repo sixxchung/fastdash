@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from fastapi import File, UploadFile
 
 import requests
+from requests.api import request
+from starlette import responses
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
@@ -13,13 +15,29 @@ from datetime import datetime
 from dataclasses import asdict
 from typing import Optional
 
-router = APIRouter()
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
+
+
+router = APIRouter()
+# -------------------
+# data model
+# -------------
 db = []
 
 class City(BaseModel):
     name:str
     timezone:str
+
+class CityModify(BaseModel):
+    id: int
+    name:str
+    timezone:str
+
+templates = Jinja2Templates(directory="dashTemplate")
+
 
 @router.get("/")
 async def root(req: Request):
@@ -29,19 +47,30 @@ async def root(req: Request):
     """
     return JSONResponse( {'hello':'sixxx'} )
 
-@router.get("/cities")
-def get_cities():
-    results = []
+@router.get("/cities", response_class=HTMLResponse)
+def get_cities(request: Request):
+    #result=[]
+    context={}
+
+    rsCity = []
+    cnt =0
     for aCity in db:
         strs = f"http://worldtimeapi.org/api/timezone/{aCity['timezone']}"
         r = requests.get(strs)
         cur_time = r.json()['datetime']
-        results.append(
-            {'name':aCity['name'],
-                'timezone':aCity['timezone'],
-                'current_time':cur_time}
+        cnt += 1
+        rsCity.append(
+        #result.append(
+            {'id': cnt,
+             'name':aCity['name'],
+             'timezone':aCity['timezone'],
+             'current_time':cur_time}
         )
-    return results
+
+    context['request'] = request
+    context['rsCity'] = rsCity
+    #return results
+    return templates.TemplateResponse('city_list.html', context)
 
 @router.get("/cities/{city_id}")
 async def get_city(city_id:int):

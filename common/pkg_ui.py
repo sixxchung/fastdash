@@ -15,6 +15,7 @@ from dash.exceptions   import PreventUpdate
 ### Required libraries ------------------------------------------
 import numpy as np
 import os
+
 import pandas as pd
 from pandas import Series
 # column 다 보이기
@@ -24,3 +25,4 @@ pd.set_option('display.max_columns', None)
 
 ### Visualization libraries -------------------------------------
 import plotly.express as px
+import plotly.graph_objs as obj

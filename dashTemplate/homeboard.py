@@ -1,15 +1,17 @@
 #from settings.common_ui    import *
 from common.pkg_ui import *
 
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))) )
+# import sys
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))) )
 
 ###############################################################################
 #                                MAIN                                         #
 ###############################################################################
-from common      import config #, contents, style
+from common      import config , contents, style
 
+from dashTemplate.mytest       import test_tab
 from dashTemplate.cards_basic  import cards_tab
+
 # from dashTemplate.cards_social import social_cards_tab
 # from dashTemplate.cards_tab    import tab_cards_tab
 # from dashTemplate.basic_boxes  import basic_boxes_tab
@@ -22,10 +24,12 @@ from dashTemplate.cards_basic  import cards_tab
 # Dash App and Flask Server
 # =============================================================================
 #app = dash.Dash(__name__)
-app = dash.Dash(name=__name__, requests_pathname_prefix="/dash/",
+app = dash.Dash(name=__name__, 
+    #routes_pathname_prefix='/dash/',
+    requests_pathname_prefix="/dash/",
     assets_folder = config.root+"/dashTemplate/assets", 
     external_stylesheets = [
-        dbc.themes.CYBORG, 
+        #dbc.themes.CYBORG, 
         config.fontawesome,
         config.external_stylesheets,
     ]
@@ -44,7 +48,7 @@ top_right_ui = dac.NavbarDropdown(
 	header_text="2 Items",
     children= [
 		dac.NavbarDropdownItem(
-			children = "message 1",
+			children = "message 11",
 			date = "today"
 		),
 		dac.NavbarDropdownItem(
@@ -53,7 +57,7 @@ top_right_ui = dac.NavbarDropdown(
 		),
 	]
 )
-                              
+
 navbar = dac.Navbar(
     className="nav nav-pills", 
     color = "white", 
@@ -63,8 +67,8 @@ navbar = dac.Navbar(
 
 # Sidebar
 sideMenu = dac.SidebarMenu([
-    dac.SidebarHeader(children="myTest"),
-    dac.SidebarMenuItem(id='tab_mytest', label='test', icon='box'),
+    dac.SidebarHeader(children="Test"),
+    dac.SidebarMenuItem(id='sidebar_test', label='test', icon='box'),
 
     dac.SidebarHeader(children="Cards"),
     dac.SidebarMenuItem(id='tab_cards',        label='Basic cards',  icon='box'),
@@ -90,8 +94,7 @@ sideMenu = dac.SidebarMenu([
     ),
 ])
 
-sidebar = dac.Sidebar(
-    sideMenu,
+sidebar = dac.Sidebar( sideMenu,
     title='Alyx',
 	skin="dark",
     color="primary",
@@ -106,17 +109,18 @@ sidebar = dac.Sidebar(
 # Body
 body = dac.Body(
     dac.TabItems([
-        # cards_tab,
+        test_tab,
+        cards_tab,
         # social_cards_tab,
         # tab_cards_tab,
         # basic_boxes_tab,
         # value_boxes_tab,
-        dac.TabItem(id='content_gallery_1', 
-            children=  html.P('Gallery 1 (You can add Dash Bootstrap Components!)'), 
-        ),
-        dac.TabItem(id='content_gallery_2',
-            children=html.P('Gallery 2 (You can add Dash Bootstrap Components!)'), 
-        ),
+        # dac.TabItem(id='content_gallery_1', 
+        #     children=  html.P('Gallery 1 (You can add Dash Bootstrap Components!)'), 
+        # ),
+        # dac.TabItem(id='content_gallery_2',
+        #     children=html.P('Gallery 2 (You can add Dash Bootstrap Components!)'), 
+        # ),
     ])
 )
 
@@ -151,69 +155,89 @@ app.layout = dac.Page([navbar, sidebar, body, controlbar, footer])
 # =============================================================================
 # Callbacks
 # =============================================================================
-# def activate(input_id, 
-#              n_cards, n_social_cards, n_tab_cards, 
-#              n_basic_boxes, n_value_boxes, 
-#              n_gallery_1, n_gallery_2):
-#     # Depending on tab which triggered a callback, show/hide contents of app
-#     if input_id == 'tab_cards' and n_cards:
-#         return True, False, False, False, False, False, False
-#     elif input_id == 'tab_social_cards' and n_social_cards:
-#         return False, True, False, False, False, False, False
-#     elif input_id == 'tab_tab_cards' and n_tab_cards:
-#         return False, False, True, False, False, False, False
-#     elif input_id == 'tab_basic_boxes' and n_basic_boxes:
-#         return False, False, False, True, False, False, False
-#     elif input_id == 'tab_value_boxes' and n_value_boxes:
-#         return False, False, False, False, True, False, False
-#     elif input_id == 'tab_gallery_1' and n_gallery_1:
-#         return False, False, False, False, False, True, False
-#     elif input_id == 'tab_gallery_2' and n_gallery_2:
-#         return False, False, False, False, False, False, True
-#     else:
-#         return True, False, False, False, False, False, False # App init
-    
-# @app.callback(
-#     [Output('content_cards',        'active'),
-#      Output('content_social_cards', 'active'),
-#      Output('content_tab_cards',    'active'),
-#      Output('content_basic_boxes',  'active'),
-#      Output('content_value_boxes',  'active'),
-#      Output('content_gallery_1',    'active'),
-#      Output('content_gallery_2',    'active')],
-#     [Input('tab_cards',        'n_clicks'),
-#      Input('tab_social_cards', 'n_clicks'),
-#      Input('tab_tab_cards',    'n_clicks'),
-#      Input('tab_basic_boxes',  'n_clicks'),
-#      Input('tab_value_boxes',  'n_clicks'),
-#      Input('tab_gallery_1',    'n_clicks'),
-#      Input('tab_gallery_2',    'n_clicks')]
-# )
-# def display_tab(n_cards, n_social_cards, n_tab_cards, 
-#     n_basic_boxes, n_value_boxes,
-#     n_gallery_1, n_gallery_2):
-#     # Callback context to recognize which input has been triggered
-#     ctx = dash.callback_context 
-#     # Get id of input which triggered callback 
-#     if not ctx.triggered:
-#         raise PreventUpdate
-#     else:
-#         input_id = ctx.triggered[0]['prop_id'].split('.')[0]   
+def activate(input_id, 
+             n_tests,
+             n_cards, n_social_cards, n_tab_cards, 
+             n_basic_boxes, n_value_boxes, 
+             n_gallery_1, n_gallery_2):
+    # Depending on tab which triggered a callback, show/hide contents of app
+    n=8
+    result = [False]*n
+    if input_id == 'sidebar_test' and n_tests:
+        result[0] = True
+        return result
+    elif input_id == 'tab_cards' and n_cards: 
+        result[1] = True
+        return result
+    elif input_id == 'tab_social_cards' and n_social_cards:
+        result[2] = True
+        return result
+    elif input_id == 'tab_tab_cards' and n_tab_cards:
+        result[3] = True
+        return result
+    elif input_id == 'tab_basic_boxes' and n_basic_boxes:
+        result[4] = True
+        return result
+    elif input_id == 'tab_value_boxes' and n_value_boxes:
+        result[5] = True
+        return result
+    elif input_id == 'tab_gallery_1' and n_gallery_1:
+        result[6] = True
+        return result
+    elif input_id == 'tab_gallery_2' and n_gallery_2:
+        result[7] = True
+        return result
+    else:
+        return True, False, False, False, False, False, False, False # App init
 
-#     return activate(input_id, 
-#         n_cards, n_social_cards, n_tab_cards, 
-#         n_basic_boxes, n_value_boxes, 
-#         n_gallery_1, n_gallery_2)
+###### right content show/hide
+@app.callback(
+    [Output('content_tests',        'active'),
+     Output('content_cards',        'active'),
+     Output('content_social_cards', 'active'),
+     Output('content_tab_cards',    'active'),
+     Output('content_basic_boxes',  'active'),
+     Output('content_value_boxes',  'active'),
+     Output('content_gallery_1',    'active'),
+     Output('content_gallery_2',    'active')],
+    [Input('sidebar_test',        'n_clicks'),
+     Input('tab_cards',        'n_clicks'),
+     Input('tab_social_cards', 'n_clicks'),
+     Input('tab_tab_cards',    'n_clicks'),
+     Input('tab_basic_boxes',  'n_clicks'),
+     Input('tab_value_boxes',  'n_clicks'),
+     Input('tab_gallery_1',    'n_clicks'),
+     Input('tab_gallery_2',    'n_clicks')])
+def display_tab(
+    n_tests,
+    n_cards, n_social_cards, n_tab_cards, 
+    n_basic_boxes, n_value_boxes,
+    n_gallery_1, n_gallery_2):
+    # Callback context to recognize which input has been triggered
+    ctx = dash.callback_context 
+    # Get id of input which triggered callback 
+    if not ctx.triggered:
+        raise PreventUpdate
+    else:
+        input_id = ctx.triggered[0]['prop_id'].split('.')[0]   
+    return activate(input_id, 
+        n_tests,
+        n_cards, n_social_cards, n_tab_cards, 
+        n_basic_boxes, n_value_boxes, 
+        n_gallery_1, n_gallery_2)
 
+# Sidebar color block
 # @app.callback(
-#     [Output('tab_cards',        'active'),
+#     [Output('sidebar_test',        'active'),
+#      Output('tab_cards',        'active'),
 #      Output('tab_social_cards', 'active'),
 #      Output('tab_tab_cards',    'active'),
 #      Output('tab_basic_boxes',  'active'),
 #      Output('tab_value_boxes',  'active'),
 #      Output('tab_gallery_1',    'active'),
 #      Output('tab_gallery_2',    'active')],
-#     [Input('tab_cards',        'n_clicks'),
+#     [Input('sidebar_test',        'n_clicks'),
+#      Input('tab_cards',        'n_clicks'),
 #      Input('tab_social_cards', 'n_clicks'),
 #      Input('tab_tab_cards',    'n_clicks'),
 #      Input('tab_basic_boxes',  'n_clicks'),
@@ -221,7 +245,8 @@ app.layout = dac.Page([navbar, sidebar, body, controlbar, footer])
 #      Input('tab_gallery_1',    'n_clicks'),
 #      Input('tab_gallery_2',    'n_clicks')]
 # )
-# def activate_tab(n_cards, n_social_cards, n_tab_cards, 
+# def activate_tab(n_tests,
+#     n_cards, n_social_cards, n_tab_cards, 
 #     n_basic_boxes, n_value_boxes,
 #     n_gallery_1, n_gallery_2):    
 #     ctx = dash.callback_context # Callback context to recognize which input has been triggered
@@ -230,8 +255,8 @@ app.layout = dac.Page([navbar, sidebar, body, controlbar, footer])
 #         raise PreventUpdate
 #     else:
 #         input_id = ctx.triggered[0]['prop_id'].split('.')[0]   
-
 #     return activate(input_id, 
+#         n_tests,
 #         n_cards, n_social_cards, n_tab_cards, 
 #         n_basic_boxes, n_value_boxes, 
 #         n_gallery_1, n_gallery_2)
