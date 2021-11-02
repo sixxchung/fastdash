@@ -9,15 +9,15 @@ from common.pkg_ui import *
 ###############################################################################
 from common      import config , contents, style
 
-from dashTemplate.mytest       import test_tab
-from dashTemplate.cards_basic  import cards_tab
+from template.mytest       import test_tab
+from template.cards_basic  import cards_tab
 
-# from dashTemplate.cards_social import social_cards_tab
-# from dashTemplate.cards_tab    import tab_cards_tab
-# from dashTemplate.basic_boxes  import basic_boxes_tab
-# from dashTemplate.value_boxes  import value_boxes_tab
+# from template.cards_social import social_cards_tab
+# from template.cards_tab    import tab_cards_tab
+# from template.basic_boxes  import basic_boxes_tab
+# from template.value_boxes  import value_boxes_tab
 
-# from dashTemplate.cards_tab    import text_1, text_2, text_3
+# from template.cards_tab    import text_1, text_2, text_3
 # from pycode.example_plots  import plot_scatter
 
 # =============================================================================
@@ -27,7 +27,7 @@ from dashTemplate.cards_basic  import cards_tab
 app = dash.Dash(name=__name__, 
     #routes_pathname_prefix='/dash/',
     requests_pathname_prefix="/dash/",
-    assets_folder = config.root+"/dashTemplate/assets", 
+    assets_folder = config.root+"/template/assets", 
     external_stylesheets = [
         #dbc.themes.CYBORG, 
         config.fontawesome,

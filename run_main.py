@@ -1,7 +1,7 @@
 # adminlte :: dash- flask 
 # noti-api :: fastapi - uvicorn
 
-from dashTemplate.homeboard  import app
+from template.homeboard  import app
 # app = dash.Dash(__name__, requests_pathname_prefix="/dash/")
 
 # ------

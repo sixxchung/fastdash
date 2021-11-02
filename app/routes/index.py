@@ -36,7 +36,7 @@ class CityModify(BaseModel):
     name:str
     timezone:str
 
-templates = Jinja2Templates(directory="dashTemplate")
+templates = Jinja2Templates(directory="template")
 
 
 @router.get("/")

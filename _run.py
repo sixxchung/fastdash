@@ -4,7 +4,7 @@
 # from FOLDER.FILE import CLASS, CONSTANT
 # from FOLDER      import FILE
 
-from dashTemplate.homeboard      import app
+from template.homeboard      import app
 from common         import config
 import os
 
