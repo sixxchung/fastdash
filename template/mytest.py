@@ -1,7 +1,6 @@
 from common.pkg_ui    import *
 
-from pycode.example_plots import plot_pie, plot_surface, plot_scatter
-
+from contents.example_plots import plot_pie, plot_surface, plot_scatter
 
 # test_tab = dac.TabItem(id='content_tests',
 # )

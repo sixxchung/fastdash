@@ -18,7 +18,7 @@ from template.cards_basic  import cards_tab
 # from template.value_boxes  import value_boxes_tab
 
 # from template.cards_tab    import text_1, text_2, text_3
-# from pycode.example_plots  import plot_scatter
+# from contents.example_plots  import plot_scatter
 
 # =============================================================================
 # Dash App and Flask Server
@@ -140,7 +140,7 @@ controlbar = dac.Controlbar(
 
 # Footer
 footer = dac.Footer(
-	html.A("@sixx, dash",
+	html.A("@skcc dash",
 		href = "https://onesixx.com/category/py/dash/", 
 		target = "_blank", 
 	),

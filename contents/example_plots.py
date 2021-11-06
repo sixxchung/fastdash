@@ -1,5 +1,4 @@
 from common.pkg_py   import *
-print("sixxx")
 import plotly.graph_objs as go
 
 def plot_pie():

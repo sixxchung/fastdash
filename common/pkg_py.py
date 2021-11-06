@@ -40,4 +40,4 @@ import sklearn
 
 ### for test
 def xxx(var='good'):
-    print(var+"sixx!!!")
+    print(var+"dumb dumb!!!")
